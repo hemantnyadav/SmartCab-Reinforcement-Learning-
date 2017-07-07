@@ -49,7 +49,7 @@ class LearningAgent(Agent):
 
         # Collect data about the environment
         waypoint = self.planner.next_waypoint() # The next waypoint 
-        inputs = self.env.sense(self)           # Visual input - intersection light and traffic
+        inputs 	 = self.env.sense(self)           # Visual input - intersection light and traffic
         deadline = self.env.get_deadline(self)  # Remaining deadline
 
         ########### 
@@ -103,11 +103,17 @@ class LearningAgent(Agent):
         self.next_waypoint = self.planner.next_waypoint()
         action = None
 
+    	
         ########### 
         ## TO DO ##
         ###########
         # When not learning, choose a random action
-        # When learning, choose a random action with 'epsilon' probability
+        from random import randint
+        if(self.learning == False):
+           action = self.valid_actions[random.randint(0,3)]
+		# When learning, choose a random action with 'epsilon' probability
+        if(self.learning == True):
+           action = self.valid_actions[random.randint(0,3)*self.epsilon]
         # Otherwise, choose an action with the highest Q-value for the current state
         # Be sure that when choosing an action with highest Q-value that you randomly select between actions that "tie".
         return action
