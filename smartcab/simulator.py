@@ -84,7 +84,10 @@ class Simulator(object):
                 print "Simulator.__init__(): Error initializing GUI objects; display disabled.\n{}: {}".format(e.__class__.__name__, e)
 
         # Setup metrics to report
+
         self.log_metrics = log_metrics
+
+        #print(log_metrics)
         self.optimized = optimized
         
         if self.log_metrics:
