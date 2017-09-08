@@ -73,7 +73,7 @@ class LearningAgent(Agent):
         # With the hand-engineered features, this learning process gets entirely negated.
         
         # Set 'state' as a tuple of relevant data for the agent        
-        state = (waypoint, inputs['light'], inputs['left'], inputs['oncoming'])
+        state = (waypoint, inputs['light'], inputs['left'], inputs['right'])
 
         return state
 
@@ -87,7 +87,12 @@ class LearningAgent(Agent):
         ###########
         # Calculate the maximum Q-value of all actions for a given state
 
-        maxAction = max(self.Q[state], key = lambda x: self.Q[state][x])
+        maxValue = max(self.Q[state].values())
+
+        #self.Q[state], key = lambda x: self.Q[state][x]
+
+        maxAction = random.choice([key for key in self.Q[state].keys() if self.Q[state][key]==maxValue])
+
         #print self.Q[state],state,"-maxAction-",maxAction
         maxQ = maxAction #self.Q[state][maxAction]
 
@@ -106,8 +111,9 @@ class LearningAgent(Agent):
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
 
-        if state not in self.Q:
-            self.Q[state] = {'left': 0, 'right':0, 'forward':0, None:0}
+        if self.learning:
+            if state not in self.Q:
+                self.Q[state] = {'left': 0, 'right':0, 'forward':0, None:0}
 
         return
 
@@ -132,6 +138,7 @@ class LearningAgent(Agent):
 
         if self.learning and random.random() > self.epsilon:
             action = self.get_maxQ(state)
+            
         
             #choose randomly if there are more than one max values
             
