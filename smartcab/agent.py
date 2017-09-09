@@ -8,7 +8,7 @@ class LearningAgent(Agent):
     """ An agent that learns to drive in the Smartcab world.
         This is the object you will be modifying. """ 
 
-    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.9):
+    def __init__(self, env, learning=False, epsilon=1.0, alpha=0.7):
         super(LearningAgent, self).__init__(env)     # Set the agent in the evironment 
         self.planner = RoutePlanner(self.env, self)  # Create a route planner
         self.valid_actions = self.env.valid_actions  # The set of valid actions
@@ -48,8 +48,8 @@ class LearningAgent(Agent):
             #self.epsilon = 0.999**self.counter
             self.epsilon = 1.0/(self.counter**2) #self.epsilon - 0.05 #0.999**self.counter
             self.counter += 1.0
-            print("slef.counter")
-            print(self.counter)
+           # print("slef.counter")
+           # print(self.counter)
 
         return None
 
@@ -73,7 +73,7 @@ class LearningAgent(Agent):
         # With the hand-engineered features, this learning process gets entirely negated.
         
         # Set 'state' as a tuple of relevant data for the agent        
-        state = (waypoint, inputs['light'], inputs['left'], inputs['right'])
+        state = (waypoint, inputs['light'], inputs['left'], inputs['oncoming'])
 
         return state
 
@@ -95,6 +95,8 @@ class LearningAgent(Agent):
 
         #print self.Q[state],state,"-maxAction-",maxAction
         maxQ = maxAction #self.Q[state][maxAction]
+
+        print maxQ
 
         return maxQ 
 
@@ -140,7 +142,7 @@ class LearningAgent(Agent):
             action = self.get_maxQ(state)
             
         
-            #choose randomly if there are more than one max values
+        #choose randomly if there are more than one max values
             
         return action
 
@@ -222,7 +224,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=50, tolerance=0.0001)
+    sim.run(n_test=50, tolerance=0.00001)
 
 
 if __name__ == '__main__':
